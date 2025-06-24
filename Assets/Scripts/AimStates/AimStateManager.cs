@@ -23,6 +23,10 @@ public class AimStateManager : MonoBehaviour
     [HideInInspector] public float currentFov;
     public float fovTransitionSpeed = 10;
 
+    [SerializeField] Transform aimPosition;
+    [SerializeField] float aimTransitionSpeed = 20f;
+    [SerializeField] LayerMask aimMask;
+
     private void Start()
     {
         // Get Cinemachine Camera
@@ -69,9 +73,24 @@ public class AimStateManager : MonoBehaviour
             yRotation = Mathf.Clamp(yRotation, -80f, 80f);
         }
 
+
+        Vector2 screenCenter = new Vector2(Screen.width / 2, Screen.height / 2);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenter);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, aimMask))
+        {
+            aimPosition.position = Vector3.Lerp(aimPosition.position, hit.point, aimTransitionSpeed * Time.deltaTime);
+        }
+        else
+        {
+            aimPosition.position = ray.GetPoint(100f); // Default far away position if no hit
+        }
+
+
+
         currentState.UpdateState(this);
 
-        cam.Lens.FieldOfView = Mathf.Lerp(cam.Lens.FieldOfView, currentFov, fovTransitionSpeed * Time.deltaTime);
+        cam.Lens.FieldOfView = Mathf.Lerp(cam.Lens.FieldOfView, currentFov, aimTransitionSpeed * Time.deltaTime);
     }
 
     private void LateUpdate()
