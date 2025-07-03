@@ -17,15 +17,29 @@ public class WeaponManager : MonoBehaviour
     [SerializeField] AudioClip fireSound;
     AudioSource audioSource;
     WeaponAmmo ammo;
+    WeaponRecoil recoil;
+
+    Light muzzleFlashLight;
+    ParticleSystem muzzleFlashPArticle;
+    float lightIntensity;
+    [SerializeField] float lightReturnSpeed = 20f;
+
+
 
     ActionStateManager actions;
 
+
     void Start()
     {
+        recoil = GetComponent<WeaponRecoil>();
         audioSource = GetComponent<AudioSource>();
         aim = GetComponentInParent<AimStateManager>();
         ammo = GetComponent<WeaponAmmo>();
         actions = GetComponentInParent<ActionStateManager>();
+        muzzleFlashLight = bulletSpawnLocation.GetComponentInChildren<Light>();
+        lightIntensity = muzzleFlashLight.intensity;
+        muzzleFlashLight.intensity = 0f;
+        muzzleFlashPArticle = bulletSpawnLocation.GetComponentInChildren<ParticleSystem>();
         fireRateTimer = fireRate;
 
     }
@@ -34,6 +48,7 @@ public class WeaponManager : MonoBehaviour
     void Update()
     {
         if (ShouldFire()) Fire();
+        muzzleFlashLight.intensity = Mathf.Lerp(muzzleFlashLight.intensity, 0f, lightReturnSpeed * Time.deltaTime);
     }
 
     bool ShouldFire()
@@ -54,13 +69,20 @@ public class WeaponManager : MonoBehaviour
         fireRateTimer = 0f;
         bulletSpawnLocation.LookAt(aim.aimPosition);
         audioSource.PlayOneShot(fireSound);
+        recoil.TriggerRecoil();
+        TriggerMuzzleFlash();
         ammo.currentAmmo--;
         for (int i = 0; i < bulletsPerShot; i++)
         {
             GameObject currentBullet = Instantiate(bulletPrefab, bulletSpawnLocation.position, bulletSpawnLocation.rotation);
             Rigidbody rb = currentBullet.GetComponent<Rigidbody>();
             if (rb != null) rb.AddForce(bulletSpawnLocation.forward * bulletVelocity, ForceMode.Impulse);
-
         }
+    }
+
+    void TriggerMuzzleFlash()
+    {
+        muzzleFlashPArticle.Play();
+        muzzleFlashLight.intensity = lightIntensity;
     }
 }

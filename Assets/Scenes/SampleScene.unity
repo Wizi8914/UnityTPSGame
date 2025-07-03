@@ -185,6 +185,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1852576806998514506}
     m_Modifications:
+    - target: {fileID: 675552971970693700, guid: 0659af5968dd0c14aa0490eced3765b1, type: 3}
+      propertyPath: recoilFollowPos
+      value: 
+      objectReference: {fileID: 1392994979}
+    - target: {fileID: 1328721879297571914, guid: 0659af5968dd0c14aa0490eced3765b1, type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1328721879297571914, guid: 0659af5968dd0c14aa0490eced3765b1, type: 3}
+      propertyPath: LightsModule.enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6512860003061171053, guid: 0659af5968dd0c14aa0490eced3765b1, type: 3}
+      propertyPath: m_Name
+      value: MuzzleFlashParticle
+      objectReference: {fileID: 0}
     - target: {fileID: 7340606141430408114, guid: 0659af5968dd0c14aa0490eced3765b1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.0424
@@ -225,6 +241,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 7365817650178274042, guid: 0659af5968dd0c14aa0490eced3765b1, type: 3}
+      propertyPath: m_NormalDirection
+      value: 0.36
+      objectReference: {fileID: 0}
     - target: {fileID: 7936878669062022226, guid: 0659af5968dd0c14aa0490eced3765b1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.009
@@ -244,13 +264,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 9161096952746768573, guid: 0659af5968dd0c14aa0490eced3765b1, type: 3}
-      insertIndex: 1
-      addedObject: {fileID: 1475901297}
-    - targetCorrespondingSourceObject: {fileID: 9161096952746768573, guid: 0659af5968dd0c14aa0490eced3765b1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1475901299}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0659af5968dd0c14aa0490eced3765b1, type: 3}
 --- !u!1 &330585543
 GameObject:
@@ -422,11 +436,6 @@ MonoBehaviour:
       m_PostInfinity: 2
       m_RotationOrder: 4
   CustomBlends: {fileID: 0}
---- !u!4 &374838368 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7936878669062022226, guid: 0659af5968dd0c14aa0490eced3765b1, type: 3}
-  m_PrefabInstance: {fileID: 263843535}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &393688265
 GameObject:
   m_ObjectHideFlags: 0
@@ -1460,7 +1469,7 @@ MonoBehaviour:
   m_StreamingVersion: 20241001
   m_LegacyPriority: 0
   Target:
-    TrackingTarget: {fileID: 1655697995}
+    TrackingTarget: {fileID: 1392994979}
     LookAtTarget: {fileID: 0}
     CustomLookAtTarget: 0
   Lens:
@@ -1503,43 +1512,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7340606141430408114, guid: 0659af5968dd0c14aa0490eced3765b1, type: 3}
   m_PrefabInstance: {fileID: 263843535}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1475901297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188838389}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3918fefdd79992c4b9912e4821a6bfb5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fireRate: 0.12
-  semiAutomatic: 0
-  bulletPrefab: {fileID: 8706505852673186909, guid: 89b7be4f0fa6de6478432e5a31d06497, type: 3}
-  bulletSpawnLocation: {fileID: 374838368}
-  bulletsPerShot: 1
-  bulletVelocity: 500
-  fireSound: {fileID: 8300000, guid: 54ca3527771e19840a850cec91f9a354, type: 3}
---- !u!114 &1475901299
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188838389}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aee6a5ffab1344743adcc253795444a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clipSize: 30
-  extraAmmo: 120
-  currentAmmo: 0
-  magazineInSound: {fileID: 8300000, guid: e08d14697b5f66f499cc87693031d2f3, type: 3}
-  magazineOutSound: {fileID: 8300000, guid: 7fed0f15f29e08e4e9296d752a69d0d7, type: 3}
-  releaseSlideSource: {fileID: 8300000, guid: 09c2eb9dbad1fd9458a6bfdee74607b9, type: 3}
 --- !u!1 &1485426103
 GameObject:
   m_ObjectHideFlags: 0

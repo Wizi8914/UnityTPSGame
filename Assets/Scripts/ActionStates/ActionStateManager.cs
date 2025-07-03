@@ -50,18 +50,10 @@ public class ActionStateManager : MonoBehaviour
         SwitchState(Default);
     }
 
-    public void MagazineIn()
-    {
-        audioSource.PlayOneShot(ammo.magazineOutSound);
-    }
-
-    public void MagazineOut()
-    {
-        audioSource.PlayOneShot(ammo.magazineInSound);
-    }
-
-    public void ReleaseSlide()
-    {
-        audioSource.PlayOneShot(ammo.releaseSlideSource);
-    }
+    public void MagazineIn() => audioSource.PlayOneShot(ammo.magazineOutSound);
+    
+    public void MagazineOut() => audioSource.PlayOneShot(ammo.magazineInSound);
+    
+    public void ReleaseSlide() => audioSource.PlayOneShot(ammo.releaseSlideSource);
+    
 }
