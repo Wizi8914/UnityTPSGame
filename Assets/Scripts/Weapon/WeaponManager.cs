@@ -17,6 +17,7 @@ public class WeaponManager : MonoBehaviour
     [SerializeField] AudioClip fireSound;
     AudioSource audioSource;
     WeaponAmmo ammo;
+    WeaponBloom bloom;
     WeaponRecoil recoil;
 
     Light muzzleFlashLight;
@@ -24,10 +25,7 @@ public class WeaponManager : MonoBehaviour
     float lightIntensity;
     [SerializeField] float lightReturnSpeed = 20f;
 
-
-
     ActionStateManager actions;
-
 
     void Start()
     {
@@ -35,6 +33,7 @@ public class WeaponManager : MonoBehaviour
         audioSource = GetComponent<AudioSource>();
         aim = GetComponentInParent<AimStateManager>();
         ammo = GetComponent<WeaponAmmo>();
+        bloom = GetComponent<WeaponBloom>();
         actions = GetComponentInParent<ActionStateManager>();
         muzzleFlashLight = bulletSpawnLocation.GetComponentInChildren<Light>();
         lightIntensity = muzzleFlashLight.intensity;
@@ -68,14 +67,23 @@ public class WeaponManager : MonoBehaviour
     {
         fireRateTimer = 0f;
         bulletSpawnLocation.LookAt(aim.aimPosition);
+        bulletSpawnLocation.localEulerAngles = bloom.bloomAngle(bulletSpawnLocation);
+
+        // Play fire sound
+        audioSource.pitch = Random.Range(0.85f, 1.1f);
+        audioSource.volume = Random.Range(0.8f, 1f);
+        //audioSource.time = Random.Range(0f, fireSound.length);
         audioSource.PlayOneShot(fireSound);
+
         recoil.TriggerRecoil();
         TriggerMuzzleFlash();
         ammo.currentAmmo--;
         for (int i = 0; i < bulletsPerShot; i++)
         {
+            
             GameObject currentBullet = Instantiate(bulletPrefab, bulletSpawnLocation.position, bulletSpawnLocation.rotation);
             Rigidbody rb = currentBullet.GetComponent<Rigidbody>();
+            
             if (rb != null) rb.AddForce(bulletSpawnLocation.forward * bulletVelocity, ForceMode.Impulse);
         }
     }

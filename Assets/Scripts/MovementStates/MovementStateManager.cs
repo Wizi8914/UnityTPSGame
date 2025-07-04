@@ -26,7 +26,7 @@ public class MovementStateManager : MonoBehaviour
 
 
     // Movement states
-    MovementBaseState currentState;
+    public MovementBaseState currentState;
 
     public IdleState Idle = new IdleState();
     public WalkState Walk = new WalkState();
@@ -73,8 +73,6 @@ public class MovementStateManager : MonoBehaviour
         // Get horizontal and vertical input
         hzInput = Input.GetAxis("Horizontal");
         vtInput = Input.GetAxis("Vertical");
-
-        Debug.Log($"hzInput: {hzInput}, vtInput: {vtInput}");
 
         moveDirection = transform.forward * vtInput + transform.right * hzInput;
 

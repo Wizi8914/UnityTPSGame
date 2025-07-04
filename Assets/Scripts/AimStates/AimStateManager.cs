@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 public class AimStateManager : MonoBehaviour
 {
-    AimBaseState currentState;
+    [HideInInspector] public AimBaseState currentState;
     public HipFireState Hip = new HipFireState();
     public AimState Aim = new AimState();
 
@@ -27,6 +27,11 @@ public class AimStateManager : MonoBehaviour
     [HideInInspector] public Vector3 actualAimPosition;
     [SerializeField] float aimTransitionSpeed = 20f;
     [SerializeField] LayerMask aimMask;
+
+    float xFollowPosition;
+    float yFollowPosition, ogYFollowPosition;
+    
+
 
     private void Start()
     {
@@ -63,8 +68,6 @@ public class AimStateManager : MonoBehaviour
         {
             // Get input from new Input System
             Vector2 lookDelta = lookAction.ReadValue<Vector2>();
-
-            Debug.Log($"Look Delta: {lookDelta}");
 
             // Apply sensitivity
             xRotation += lookDelta.x * mouseSensitivity;

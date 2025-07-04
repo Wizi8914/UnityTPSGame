@@ -5273,6 +5273,7 @@ MonoBehaviour:
   bulletSpawnLocation: {fileID: 7936878669062022226}
   bulletsPerShot: 1
   bulletVelocity: 500
+  bulletSpread: 0.06
   fireSound: {fileID: 8300000, guid: 54ca3527771e19840a850cec91f9a354, type: 3}
   lightReturnSpeed: 20
 --- !u!82 &3226249563162155583
