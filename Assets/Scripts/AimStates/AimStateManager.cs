@@ -30,11 +30,18 @@ public class AimStateManager : MonoBehaviour
 
     float xFollowPosition;
     float yFollowPosition, ogYFollowPosition;
-    
+    [SerializeField] float shoulderSwapSpeed = 10;
+    [SerializeField] float crouchCamHeight = 0.6f;
+    MovementStateManager moving;
 
 
     private void Start()
     {
+        moving = GetComponent<MovementStateManager>();
+        xFollowPosition = camFollowPos.localPosition.x;
+        ogYFollowPosition = camFollowPos.localPosition.y;
+        yFollowPosition = ogYFollowPosition;
+
         // Get Cinemachine Camera
         cam = GetComponentInChildren<CinemachineCamera>();
         hipFov = cam.Lens.FieldOfView;
@@ -90,7 +97,7 @@ public class AimStateManager : MonoBehaviour
             aimPosition.position = ray.GetPoint(100f); // Default far away position if no hit
         }
 
-
+        MoveCamera();
 
         currentState.UpdateState(this);
 
@@ -106,10 +113,22 @@ public class AimStateManager : MonoBehaviour
             transform.eulerAngles = new Vector3(transform.eulerAngles.x, xRotation, transform.eulerAngles.z);
         }
     }
-    
+
     public void SwitchState(AimBaseState state)
     {
         currentState = state;
         currentState.EnterState(this);
+    }
+
+    void MoveCamera()
+    {
+        if (playerInput.actions["SwapShoulder"].triggered) xFollowPosition = -xFollowPosition;
+        if (moving.currentState == moving.Crouch) yFollowPosition = crouchCamHeight;
+        else yFollowPosition = ogYFollowPosition;
+
+        Vector3 newFollowPosition = new Vector3(xFollowPosition, yFollowPosition, camFollowPos.localPosition.z);
+        camFollowPos.localPosition = Vector3.Lerp(camFollowPos.localPosition, newFollowPosition, shoulderSwapSpeed * Time.deltaTime);
+
+        Debug.Log($"Camera Position: {camFollowPos.localPosition}, Aim Position: {aimPosition.position}");
     }
 }

@@ -5230,6 +5230,7 @@ GameObject:
   - component: {fileID: 3226249563162155583}
   - component: {fileID: 7866840224621932148}
   - component: {fileID: 675552971970693700}
+  - component: {fileID: 8924226562994933233}
   m_Layer: 0
   m_Name: ak-47A
   m_TagString: Untagged
@@ -5273,7 +5274,6 @@ MonoBehaviour:
   bulletSpawnLocation: {fileID: 7936878669062022226}
   bulletsPerShot: 1
   bulletVelocity: 500
-  bulletSpread: 0.06
   fireSound: {fileID: 8300000, guid: 54ca3527771e19840a850cec91f9a354, type: 3}
   lightReturnSpeed: 20
 --- !u!82 &3226249563162155583
@@ -5407,3 +5407,20 @@ MonoBehaviour:
   kickBackForce: -1
   kickBackSpeed: 10
   returnSpeed: 20
+--- !u!114 &8924226562994933233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9161096952746768573}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a8b3277ac74bc8408f5e960ab14bf92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultBloomAngle: 3
+  walkBloomMultiplier: 1.5
+  crouchBloomMultiplier: 0.5
+  sprintBloomMultiplier: 2
+  adsBloomMultiplier: 0.5
