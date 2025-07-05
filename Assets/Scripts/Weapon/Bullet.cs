@@ -4,23 +4,21 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     [SerializeField] float lifeTime;
-    float lifeTimer;
+    [HideInInspector] public WeaponManager weapon;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        lifeTimer += Time.deltaTime;
-        if (lifeTimer >= lifeTime) Destroy(this.gameObject);
+        Destroy(this.gameObject, lifeTime);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (collision.gameObject.GetComponentInParent<EnemyHealth>())
+        {
+            EnemyHealth enemy = collision.gameObject.GetComponentInParent<EnemyHealth>();
+            enemy.TakeDamage(weapon.damage); // Example damage value
+        }
         Destroy(this.gameObject);
     }
 }

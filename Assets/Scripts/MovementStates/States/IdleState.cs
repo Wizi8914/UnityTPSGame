@@ -14,11 +14,17 @@ public class IdleState : MovementBaseState
             if (movement.playerInput.actions["Sprint"].IsPressed()) movement.SwitchState(movement.Run);
             else movement.SwitchState(movement.Walk);
         }
-        
-        
+
+
         if (movement.playerInput.actions["Crouch"].WasPressedThisFrame())
         {
             movement.SwitchState(movement.Crouch);
+        }
+        
+        if (movement.playerInput.actions["Jump"].WasPressedThisFrame())
+        {
+            movement.previousState = this;
+            movement.SwitchState(movement.Jump);
         }
     }
 }

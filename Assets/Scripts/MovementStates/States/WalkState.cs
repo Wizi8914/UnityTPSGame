@@ -16,6 +16,12 @@ public class WalkState : MovementBaseState
 
         if (movement.vtInput < 0) movement.currentMoveSpeed = movement.walkBackSpeed;
         else movement.currentMoveSpeed = movement.walkSpeed;
+
+        if (movement.playerInput.actions["Jump"].WasPressedThisFrame())
+        {
+            movement.previousState = this;
+            ExitState(movement, movement.Jump);
+        }
     }
 
     void ExitState(MovementStateManager movement, MovementBaseState state)

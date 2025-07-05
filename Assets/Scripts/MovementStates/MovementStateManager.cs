@@ -9,7 +9,8 @@ public class MovementStateManager : MonoBehaviour
     public float walkSpeed = 3, walkBackSpeed = 2;
     public float runSpeed = 7, runBackSpeed = 5;
     public float crouchSpeed = 2, crouchBackSpeed = 1;
-    
+    public float airSpeed = 1.5f;
+
 
     [HideInInspector] public Vector3 moveDirection;
     [HideInInspector] public float hzInput, vtInput;
@@ -22,16 +23,20 @@ public class MovementStateManager : MonoBehaviour
 
     // Gravity
     [SerializeField] float gravityScale = -9.81f;
+    [SerializeField] float jumpForce = 10f;
+    [HideInInspector] public bool jumped;
     Vector3 gravityVelocity;
 
 
     // Movement states
+    public MovementBaseState previousState;
     public MovementBaseState currentState;
 
     public IdleState Idle = new IdleState();
     public WalkState Walk = new WalkState();
     public RunState Run = new RunState();
     public CrouchState Crouch = new CrouchState();
+    public JumpState Jump = new JumpState();
 
     [HideInInspector] public Animator animator;
 
@@ -50,6 +55,7 @@ public class MovementStateManager : MonoBehaviour
     {
         GetDirectionAndMove();
         Gravity();
+        Falling();
 
         animator.SetFloat("hzInput", hzInput);
         animator.SetFloat("vtInput", vtInput);
@@ -65,7 +71,7 @@ public class MovementStateManager : MonoBehaviour
 
     void GetDirectionAndMove()
     {
-        playerInput.actions["Move"].ReadValue<Vector2>();
+        //playerInput.actions["Move"].ReadValue<Vector2>();
 
         //hzInput = playerInput.actions["Move"].ReadValue<Vector2>().x;
         //vtInput = playerInput.actions["Move"].ReadValue<Vector2>().y;
@@ -73,15 +79,18 @@ public class MovementStateManager : MonoBehaviour
         // Get horizontal and vertical input
         hzInput = Input.GetAxis("Horizontal");
         vtInput = Input.GetAxis("Vertical");
+        Vector3 airDirection = Vector3.zero;
 
-        moveDirection = transform.forward * vtInput + transform.right * hzInput;
+        if (!IsGrounded()) airDirection = transform.forward * vtInput + transform.right * hzInput;
+        else moveDirection = transform.forward * vtInput + transform.right * hzInput;
 
-        characterController.Move(moveDirection.normalized * currentMoveSpeed * Time.deltaTime);
+        characterController.Move((moveDirection.normalized * currentMoveSpeed + airDirection.normalized * airSpeed) * Time.deltaTime);
     }
 
-    bool IsGrounded()
+    public bool IsGrounded()
     {
-        groundCheckPosition = new Vector3(transform.position.x, transform.position.y - groundYOffset, transform.position.z);
+        //groundCheckPosition = new Vector3(transform.position.x, transform.position.y - groundYOffset, transform.position.z);
+        groundCheckPosition = new Vector3(transform.position.x, transform.position.y + characterController.radius - 0.08f, transform.position.z);
         if (Physics.CheckSphere(groundCheckPosition, characterController.radius - 0.05f, groundLayer)) return true;
         return false;
     }
@@ -94,6 +103,8 @@ public class MovementStateManager : MonoBehaviour
         characterController.Move(gravityVelocity * Time.deltaTime);
     }
 
+    void Falling() => animator.SetBool("Falling", !IsGrounded());
+
     /*
     private void OnDrawGizmos()
     {
@@ -101,4 +112,7 @@ public class MovementStateManager : MonoBehaviour
         Gizmos.DrawWireSphere(groundCheckPosition, characterController.radius - 0.05f);
     }
     */
+
+    public void JumpForce() => gravityVelocity.y += jumpForce;
+    public void Jumped() => jumped = true;
 }

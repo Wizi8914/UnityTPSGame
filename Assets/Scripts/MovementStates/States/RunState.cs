@@ -14,7 +14,13 @@ public class RunState : MovementBaseState
         else if (movement.moveDirection.magnitude < 0.1f) ExitState(movement, movement.Idle);
 
         if (movement.vtInput < 0) movement.currentMoveSpeed = movement.runBackSpeed;
-        else movement.currentMoveSpeed = movement.runSpeed;     
+        else movement.currentMoveSpeed = movement.runSpeed;
+
+        if (movement.playerInput.actions["Jump"].WasPressedThisFrame())
+        {
+            movement.previousState = this;
+            ExitState(movement, movement.Jump);
+        }  
     }
     
         void ExitState(MovementStateManager movement, MovementBaseState state)

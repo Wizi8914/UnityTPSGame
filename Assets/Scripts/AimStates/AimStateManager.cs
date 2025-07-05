@@ -128,7 +128,5 @@ public class AimStateManager : MonoBehaviour
 
         Vector3 newFollowPosition = new Vector3(xFollowPosition, yFollowPosition, camFollowPos.localPosition.z);
         camFollowPos.localPosition = Vector3.Lerp(camFollowPos.localPosition, newFollowPosition, shoulderSwapSpeed * Time.deltaTime);
-
-        Debug.Log($"Camera Position: {camFollowPos.localPosition}, Aim Position: {aimPosition.position}");
     }
 }

@@ -12,6 +12,7 @@ public class WeaponManager : MonoBehaviour
     [SerializeField] Transform bulletSpawnLocation;
     [SerializeField] int bulletsPerShot;
     [SerializeField] float bulletVelocity;
+    public float damage = 10;
     AimStateManager aim;
 
     [SerializeField] AudioClip fireSound;
@@ -82,6 +83,9 @@ public class WeaponManager : MonoBehaviour
         {
             
             GameObject currentBullet = Instantiate(bulletPrefab, bulletSpawnLocation.position, bulletSpawnLocation.rotation);
+            Bullet bullet = currentBullet.GetComponent<Bullet>();
+            bullet.weapon = this; // Assign the weapon to the bullet
+
             Rigidbody rb = currentBullet.GetComponent<Rigidbody>();
             
             if (rb != null) rb.AddForce(bulletSpawnLocation.forward * bulletVelocity, ForceMode.Impulse);
