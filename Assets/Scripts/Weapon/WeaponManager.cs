@@ -16,8 +16,8 @@ public class WeaponManager : MonoBehaviour
     AimStateManager aim;
 
     [SerializeField] AudioClip fireSound;
-    AudioSource audioSource;
-    WeaponAmmo ammo;
+    [HideInInspector] public AudioSource audioSource;
+    [HideInInspector] public WeaponAmmo ammo;
     WeaponBloom bloom;
     WeaponRecoil recoil;
 
@@ -26,14 +26,16 @@ public class WeaponManager : MonoBehaviour
     float lightIntensity;
     [SerializeField] float lightReturnSpeed = 20f;
 
+    public float ennemyKickBackForce = 100f;
+
+    public Transform leftHandTarget, leftHandHint;
+    WeaponClassManager weaponClass;
+
     ActionStateManager actions;
 
     void Start()
     {
-        recoil = GetComponent<WeaponRecoil>();
-        audioSource = GetComponent<AudioSource>();
         aim = GetComponentInParent<AimStateManager>();
-        ammo = GetComponent<WeaponAmmo>();
         bloom = GetComponent<WeaponBloom>();
         actions = GetComponentInParent<ActionStateManager>();
         muzzleFlashLight = bulletSpawnLocation.GetComponentInChildren<Light>();
@@ -41,7 +43,19 @@ public class WeaponManager : MonoBehaviour
         muzzleFlashLight.intensity = 0f;
         muzzleFlashPArticle = bulletSpawnLocation.GetComponentInChildren<ParticleSystem>();
         fireRateTimer = fireRate;
+    }
 
+    void OnEnable()
+    {
+        if (weaponClass == null)
+        {
+            weaponClass = GetComponentInParent<WeaponClassManager>();
+            audioSource = GetComponent<AudioSource>();
+            ammo = GetComponent<WeaponAmmo>();
+            recoil = GetComponent<WeaponRecoil>();
+            recoil.recoilFollowPos = weaponClass.recoilFollowPos;
+        }
+        weaponClass.SetCurrentWeapon(this);
     }
 
     // Update is called once per frame
@@ -85,6 +99,8 @@ public class WeaponManager : MonoBehaviour
             GameObject currentBullet = Instantiate(bulletPrefab, bulletSpawnLocation.position, bulletSpawnLocation.rotation);
             Bullet bullet = currentBullet.GetComponent<Bullet>();
             bullet.weapon = this; // Assign the weapon to the bullet
+
+            bullet.direction = bulletSpawnLocation.transform.forward;
 
             Rigidbody rb = currentBullet.GetComponent<Rigidbody>();
             

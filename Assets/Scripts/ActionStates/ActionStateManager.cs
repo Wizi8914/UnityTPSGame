@@ -12,7 +12,7 @@ public class ActionStateManager : MonoBehaviour
 
     [HideInInspector] public PlayerInput playerInput;
 
-    public GameObject currentWeapon;
+    [HideInInspector] public WeaponManager currentWeapon;
     [HideInInspector] public WeaponAmmo ammo;
     AudioSource audioSource;
 
@@ -25,8 +25,6 @@ public class ActionStateManager : MonoBehaviour
     {
         SwitchState(Default);
         playerInput = GetComponent<PlayerInput>();
-        ammo = currentWeapon.GetComponent<WeaponAmmo>();
-        audioSource = currentWeapon.GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
     }
 
@@ -51,9 +49,16 @@ public class ActionStateManager : MonoBehaviour
     }
 
     public void MagazineIn() => audioSource.PlayOneShot(ammo.magazineOutSound);
-    
+
     public void MagazineOut() => audioSource.PlayOneShot(ammo.magazineInSound);
-    
+
     public void ReleaseSlide() => audioSource.PlayOneShot(ammo.releaseSlideSource);
+
+    public void SetWeapon(WeaponManager weapon)
+    {
+        currentWeapon = weapon;
+        audioSource = weapon.audioSource;
+        ammo = weapon.ammo;
+    }
     
 }
