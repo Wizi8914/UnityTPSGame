@@ -72,7 +72,6 @@ public class WeaponManager : MonoBehaviour
             if (!isBursting && ShouldFire())
             {
                 StartCoroutine(BurstFire());
-                Debug.Log("Burst Fire Started");
             }
         }
         else

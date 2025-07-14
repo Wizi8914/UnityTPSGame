@@ -13,8 +13,8 @@ public class DefaultState : ActionBaseState
     public override void UpdateState(ActionStateManager actions)
     {
         actions.rHandAnim.weight = Mathf.Lerp(actions.rHandAnim.weight, 0.3f, Time.deltaTime * 10f);
-        //actions.lHandIK.weight = Mathf.Lerp(actions.lHandIK.weight, 1f, Time.deltaTime * 10f);
-        if (actions.lHandIK.weight == 0) actions.lHandIK.weight = 1;
+        actions.lHandIK.weight = Mathf.Lerp(actions.lHandIK.weight, 1f, Time.deltaTime * 10f);
+        //if (actions.lHandIK.weight == 0) actions.lHandIK.weight = 1;
 
 
         if (actions.playerInput.actions["Reload"].triggered && CanReload(actions))
