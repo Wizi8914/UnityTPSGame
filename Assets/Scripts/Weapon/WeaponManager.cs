@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class WeaponManager : MonoBehaviour
 {
@@ -6,6 +7,11 @@ public class WeaponManager : MonoBehaviour
     [SerializeField] float fireRate;
     float fireRateTimer;
     [SerializeField] bool semiAutomatic = true;
+
+    [Header("Burst Fire")]
+    [SerializeField] bool isBurstFire = false;
+    [SerializeField] float burstInterval = 0.08f;
+    bool isBursting = false;
 
     [Header("Bullet Properties")]
     [SerializeField] GameObject bulletPrefab;
@@ -61,7 +67,18 @@ public class WeaponManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ShouldFire()) Fire();
+        if (isBurstFire)
+        {
+            if (!isBursting && ShouldFire())
+            {
+                StartCoroutine(BurstFire());
+                Debug.Log("Burst Fire Started");
+            }
+        }
+        else
+        {
+            if (ShouldFire()) Fire();
+        }
         muzzleFlashLight.intensity = Mathf.Lerp(muzzleFlashLight.intensity, 0f, lightReturnSpeed * Time.deltaTime);
     }
 
@@ -72,6 +89,7 @@ public class WeaponManager : MonoBehaviour
         if (fireRateTimer < fireRate) return false;
         if (ammo.currentAmmo == 0) return false;
         if (actions.currentState == actions.Reload) return false;
+        if (actions.currentState == actions.Swap) return false;
         if (semiAutomatic && Input.GetKeyDown(KeyCode.Mouse0)) return true;
         if (!semiAutomatic && Input.GetKey(KeyCode.Mouse0)) return true;
         return false;
@@ -93,9 +111,10 @@ public class WeaponManager : MonoBehaviour
         recoil.TriggerRecoil();
         TriggerMuzzleFlash();
         ammo.currentAmmo--;
+
         for (int i = 0; i < bulletsPerShot; i++)
         {
-            
+
             GameObject currentBullet = Instantiate(bulletPrefab, bulletSpawnLocation.position, bulletSpawnLocation.rotation);
             Bullet bullet = currentBullet.GetComponent<Bullet>();
             bullet.weapon = this; // Assign the weapon to the bullet
@@ -103,10 +122,25 @@ public class WeaponManager : MonoBehaviour
             bullet.direction = bulletSpawnLocation.transform.forward;
 
             Rigidbody rb = currentBullet.GetComponent<Rigidbody>();
-            
+
             if (rb != null) rb.AddForce(bulletSpawnLocation.forward * bulletVelocity, ForceMode.Impulse);
         }
     }
+
+    IEnumerator BurstFire()
+    {
+        isBursting = true;
+        for (int i = 0; i < bulletsPerShot; i++)
+        {
+            if (ammo.currentAmmo == 0 || actions.currentState == actions.Reload || actions.currentState == actions.Swap)
+                break;
+
+            Fire();
+            yield return new WaitForSeconds(burstInterval);
+        }
+        isBursting = false;
+    }
+
 
     void TriggerMuzzleFlash()
     {

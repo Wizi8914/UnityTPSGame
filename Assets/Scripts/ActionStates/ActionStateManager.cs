@@ -9,6 +9,7 @@ public class ActionStateManager : MonoBehaviour
 
     public DefaultState Default = new DefaultState();
     public ReloadState Reload = new ReloadState();
+    public SwapState Swap = new SwapState();
 
     [HideInInspector] public PlayerInput playerInput;
 
