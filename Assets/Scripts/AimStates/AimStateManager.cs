@@ -129,4 +129,15 @@ public class AimStateManager : MonoBehaviour
         Vector3 newFollowPosition = new Vector3(xFollowPosition, yFollowPosition, camFollowPos.localPosition.z);
         camFollowPos.localPosition = Vector3.Lerp(camFollowPos.localPosition, newFollowPosition, shoulderSwapSpeed * Time.deltaTime);
     }
+
+    // display ray cast
+    private void OnDrawGizmos()
+    {
+        if (aimPosition != null)
+        {
+            Gizmos.color = Color.red;
+            
+            Gizmos.DrawSphere(aimPosition.position, 0.1f);
+        }
+    }
 }

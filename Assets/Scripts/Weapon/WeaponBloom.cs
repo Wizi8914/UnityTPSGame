@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class WeaponBloom : MonoBehaviour
 {
-    [SerializeField] float defaultBloomAngle = 3f;
+    [SerializeField] float defaultBloomAngle = 2f;
     [SerializeField] float walkBloomMultiplier = 1.5f;
-    [SerializeField] float crouchBloomMultiplier = 0.5f;
-    [SerializeField] float sprintBloomMultiplier = 2f;
-    [SerializeField] float adsBloomMultiplier = 0.3f;
+    [SerializeField] float crouchBloomMultiplier = 0.2f;
+    [SerializeField] float sprintBloomMultiplier = 3f;
+    [SerializeField] float adsBloomMultiplier = 0.1f;
 
     MovementStateManager movement;
     AimStateManager aiming;
