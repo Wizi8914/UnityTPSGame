@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using System.Collections;
 
 public class WeaponClassManager : MonoBehaviour
 {
@@ -10,9 +11,13 @@ public class WeaponClassManager : MonoBehaviour
 
     public WeaponManager[] weapon;
     int currentWeaponIndex;
+    private RigBuilder rigBuilder;
 
     private void Awake()
     {
+        rigBuilder = GetComponent<RigBuilder>();
+
+
         currentWeaponIndex = 0;
         for (int i = 0; i < weapon.Length; i++)
         {
@@ -24,9 +29,23 @@ public class WeaponClassManager : MonoBehaviour
     public void SetCurrentWeapon(WeaponManager weapon)
     {
         if (actions == null) actions = GetComponent<ActionStateManager>();
+
         leftHandIK.data.target = weapon.leftHandTarget;
         leftHandIK.data.hint = weapon.leftHandHint;
+
+        leftHandIK.weight = 1f;
+        leftHandIK.data.targetPositionWeight = 1f;
+        leftHandIK.data.targetRotationWeight = 1f;
+
         actions.SetWeapon(weapon);
+
+        StartCoroutine(RefreshRig());
+    }
+
+    private IEnumerator RefreshRig()
+    {
+        yield return null;
+        rigBuilder.Build();
     }
 
     public void ChangeWeapon(float direction)
