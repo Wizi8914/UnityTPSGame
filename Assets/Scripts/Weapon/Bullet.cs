@@ -1,5 +1,6 @@
 using System.Threading;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Bullet : MonoBehaviour
 {
@@ -45,9 +46,9 @@ public class Bullet : MonoBehaviour
     private void SpawnImpactEffect(Vector3 position, Quaternion rotation, bool isASurfaceImpact = false)
     {
         GameObject impact = Instantiate(bulletImpactPrefab, position, rotation);
-        impact.transform.Rotate(0, 0, Random.Range(0, 360));
-        if (!isASurfaceImpact) impact.GetComponent<SpriteRenderer>().sprite = null; // Ensure the impact effect is rendered above other objects
-        impact.transform.position += impact.transform.forward / 1000; // Offset to avoid z-fighting
+        impact.transform.Rotate(0, impact.transform.rotation.x + 180, Random.Range(0, 360));
+        if (!isASurfaceImpact) impact.GetComponent<DecalProjector>().enabled = false; 
+        impact.transform.position -= impact.transform.forward / 100;
     }
 
 }
