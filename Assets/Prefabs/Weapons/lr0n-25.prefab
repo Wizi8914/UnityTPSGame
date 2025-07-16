@@ -5166,8 +5166,9 @@ MonoBehaviour:
   bulletSpawnLocation: {fileID: 1778712764923482120}
   bulletsPerShot: 1
   bulletVelocity: 1000
+  bulletHoleSizeMultiplier: 2
   damage: 100
-  fireSound: {fileID: 8300000, guid: 54ca3527771e19840a850cec91f9a354, type: 3}
+  fireSound: {fileID: 8300000, guid: 5ff5a4cdc4ec2a549a5989d44971fac4, type: 3}
   audioSource: {fileID: 0}
   ammo: {fileID: 0}
   lightReturnSpeed: 20
@@ -5302,9 +5303,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recoilFollowPos: {fileID: 0}
-  kickBackForce: -1
-  kickBackSpeed: 10
-  returnSpeed: 20
+  kickBackForce: -3
+  kickBackSpeed: 20
+  returnSpeed: 5
 --- !u!114 &7209384260527561972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5317,11 +5318,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3a8b3277ac74bc8408f5e960ab14bf92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultBloomAngle: 3
-  walkBloomMultiplier: 1.5
-  crouchBloomMultiplier: 0.5
-  sprintBloomMultiplier: 2
-  adsBloomMultiplier: 0.5
+  defaultBloomAngle: 4
+  walkBloomMultiplier: 2
+  crouchBloomMultiplier: 0.4
+  sprintBloomMultiplier: 1
+  adsBloomMultiplier: 0
 --- !u!1 &8940402319638851792
 GameObject:
   m_ObjectHideFlags: 0

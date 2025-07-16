@@ -5067,13 +5067,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2468827393338479524}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5470475, y: 0.4951629, z: 0.64025444, w: -0.21360497}
-  m_LocalPosition: {x: -0.90125036, y: 0.7887486, z: 1.0737509}
+  m_LocalRotation: {x: 0.5806848, y: 0.7744372, z: -0.12674022, w: -0.2167699}
+  m_LocalPosition: {x: -1.87, y: 3.86, z: 1.16}
   m_LocalScale: {x: 1.249999, y: 1.2499994, z: 1.2499998}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7810575656091308451}
-  m_LocalEulerAnglesHint: {x: 174.9, y: 60.6, z: -113.7}
+  m_LocalEulerAnglesHint: {x: 356.822, y: 208.926, z: -287.094}
 --- !u!1 &4055911230005009425
 GameObject:
   m_ObjectHideFlags: 0
@@ -5166,8 +5166,9 @@ MonoBehaviour:
   bulletSpawnLocation: {fileID: 7438315707947669456}
   bulletsPerShot: 1
   bulletVelocity: 600
+  bulletHoleSizeMultiplier: 1.3
   damage: 15
-  fireSound: {fileID: 8300000, guid: 54ca3527771e19840a850cec91f9a354, type: 3}
+  fireSound: {fileID: 8300000, guid: f121b2c665332c748b7deb5a97958b64, type: 3}
   audioSource: {fileID: 0}
   ammo: {fileID: 0}
   lightReturnSpeed: 20

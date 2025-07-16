@@ -61,6 +61,7 @@ MonoBehaviour:
   bulletSpawnLocation: {fileID: 2299545509756264249}
   bulletsPerShot: 1
   bulletVelocity: 500
+  bulletHoleSizeMultiplier: 1
   damage: 10
   fireSound: {fileID: 8300000, guid: 54ca3527771e19840a850cec91f9a354, type: 3}
   audioSource: {fileID: 0}

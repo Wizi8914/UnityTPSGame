@@ -1,8 +1,12 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Rendering.Universal;
 
 public class WeaponManager : MonoBehaviour
 {
+    [Header("Weapon Settings")]
+    [SerializeField] string weaponName;
+    
     [Header("Fire Rate")]
     [SerializeField] float fireRate;
     float fireRateTimer;
@@ -18,6 +22,7 @@ public class WeaponManager : MonoBehaviour
     [SerializeField] Transform bulletSpawnLocation;
     [SerializeField] int bulletsPerShot;
     [SerializeField] float bulletVelocity;
+    [SerializeField] float bulletHoleSizeMultiplier;
     public float damage = 10;
     AimStateManager aim;
 
@@ -116,6 +121,8 @@ public class WeaponManager : MonoBehaviour
 
             GameObject currentBullet = Instantiate(bulletPrefab, bulletSpawnLocation.position, bulletSpawnLocation.rotation);
             Bullet bullet = currentBullet.GetComponent<Bullet>();
+            bullet.holeSizeMultiplier = bulletHoleSizeMultiplier;
+
             bullet.weapon = this; // Assign the weapon to the bullet
 
             bullet.direction = bulletSpawnLocation.transform.forward;

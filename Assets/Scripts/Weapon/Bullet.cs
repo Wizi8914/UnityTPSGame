@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] float lifeTime;
     [HideInInspector] public WeaponManager weapon;
     [HideInInspector] public Vector3 direction;
+    [HideInInspector] public float holeSizeMultiplier;
 
     [SerializeField] private GameObject bulletImpactPrefab;
 
@@ -47,7 +48,11 @@ public class Bullet : MonoBehaviour
     {
         GameObject impact = Instantiate(bulletImpactPrefab, position, rotation);
         impact.transform.Rotate(0, impact.transform.rotation.x + 180, Random.Range(0, 360));
-        if (!isASurfaceImpact) impact.GetComponent<DecalProjector>().enabled = false; 
+
+        DecalProjector decal = impact.GetComponent<DecalProjector>();
+        decal.size = new Vector3(decal.size.x * holeSizeMultiplier, decal.size.y * holeSizeMultiplier, decal.size.z * holeSizeMultiplier);
+
+        if (!isASurfaceImpact) decal.enabled = false; 
         impact.transform.position -= impact.transform.forward / 100;
     }
 
