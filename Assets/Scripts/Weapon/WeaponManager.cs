@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 public class WeaponManager : MonoBehaviour
 {
     [Header("Weapon Settings")]
-    [SerializeField] string weaponName;
+    public string weaponName;
     
     [Header("Fire Rate")]
     [SerializeField] float fireRate;

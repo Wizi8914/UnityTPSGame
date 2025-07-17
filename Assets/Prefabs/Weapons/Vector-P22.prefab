@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3918fefdd79992c4b9912e4821a6bfb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponName: Vector-P22
   fireRate: 0.5
   semiAutomatic: 1
   isBurstFire: 1

@@ -53,6 +53,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3918fefdd79992c4b9912e4821a6bfb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponName: Ak-47A
   fireRate: 0.12
   semiAutomatic: 0
   isBurstFire: 0
@@ -179,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aee6a5ffab1344743adcc253795444a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clipSize: 30
+  clipSize: 25
   extraAmmo: 120
   currentAmmo: 0
   magazineInSound: {fileID: 8300000, guid: e08d14697b5f66f499cc87693031d2f3, type: 3}

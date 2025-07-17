@@ -10,6 +10,9 @@ public class Bullet : MonoBehaviour
     [HideInInspector] public float holeSizeMultiplier;
 
     [SerializeField] private GameObject bulletImpactPrefab;
+    [SerializeField] private AudioClip ennemyHitSound;
+    [HideInInspector] public AudioSource audioSource;
+
 
     ParticleSystem bulletParticle;
 
@@ -17,6 +20,7 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         bulletParticle = GetComponent<ParticleSystem>();
+        audioSource = GetComponent<AudioSource>();
         Destroy(this.gameObject, lifeTime);
     }
 
@@ -33,7 +37,11 @@ public class Bullet : MonoBehaviour
                 rb.AddForce(direction * weapon.ennemyKickBackForce, ForceMode.Impulse);
                 enemy.isDead = true;
             }
+            
             SpawnImpactEffect(collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal), false);
+
+            if (!enemy.isDead) playHitSound();
+            return;
         }
         else
         {
@@ -52,8 +60,17 @@ public class Bullet : MonoBehaviour
         DecalProjector decal = impact.GetComponent<DecalProjector>();
         decal.size = new Vector3(decal.size.x * holeSizeMultiplier, decal.size.y * holeSizeMultiplier, decal.size.z * holeSizeMultiplier);
 
-        if (!isASurfaceImpact) decal.enabled = false; 
+        if (!isASurfaceImpact) decal.enabled = false;
         impact.transform.position -= impact.transform.forward / 100;
+    }
+    
+    private void playHitSound()
+    {
+        gameObject.GetComponent<Collider>().enabled = false;
+        gameObject.GetComponent<MeshRenderer>().enabled = false;
+        gameObject.GetComponent<TrailRenderer>().enabled = false;
+        audioSource.PlayOneShot(ennemyHitSound);
+        Destroy(this.gameObject, ennemyHitSound.length);
     }
 
 }
