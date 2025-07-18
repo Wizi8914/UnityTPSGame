@@ -5170,6 +5170,7 @@ MonoBehaviour:
   bulletHoleSizeMultiplier: 2
   damage: 100
   fireSound: {fileID: 8300000, guid: 5ff5a4cdc4ec2a549a5989d44971fac4, type: 3}
+  noAmmoSound: {fileID: 8300000, guid: 588b7fe11ed4bf14ea16450e9cd59599, type: 3}
   audioSource: {fileID: 0}
   ammo: {fileID: 0}
   lightReturnSpeed: 20
@@ -5307,6 +5308,7 @@ MonoBehaviour:
   kickBackForce: -3
   kickBackSpeed: 20
   returnSpeed: 5
+  crosshair: {fileID: 0}
 --- !u!114 &7209384260527561972
 MonoBehaviour:
   m_ObjectHideFlags: 0

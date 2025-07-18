@@ -59,11 +59,12 @@ MonoBehaviour:
   burstInterval: 0.05
   bulletPrefab: {fileID: 8706505852673186909, guid: 89b7be4f0fa6de6478432e5a31d06497, type: 3}
   bulletSpawnLocation: {fileID: 7674507447365826142}
-  bulletsPerShot: 5
+  bulletsPerShot: 3
   bulletVelocity: 500
   bulletHoleSizeMultiplier: 0.7
   damage: 4
   fireSound: {fileID: 8300000, guid: 47cc74480974d504db65d64490512a08, type: 3}
+  noAmmoSound: {fileID: 8300000, guid: 588b7fe11ed4bf14ea16450e9cd59599, type: 3}
   audioSource: {fileID: 0}
   ammo: {fileID: 0}
   lightReturnSpeed: 20
@@ -201,6 +202,7 @@ MonoBehaviour:
   kickBackForce: -1
   kickBackSpeed: 10
   returnSpeed: 20
+  crosshair: {fileID: 0}
 --- !u!114 &2066864588240358759
 MonoBehaviour:
   m_ObjectHideFlags: 0
