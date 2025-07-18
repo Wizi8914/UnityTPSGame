@@ -5,6 +5,8 @@ public class EnemyHealth : MonoBehaviour
     [SerializeField] public float health = 100f;
     RagdollManager ragdollManager;
     [HideInInspector] public bool isDead;
+    [SerializeField] public SphereCollider headCollider;
+
 
     void Start()
     {

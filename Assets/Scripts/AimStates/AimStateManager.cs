@@ -191,11 +191,6 @@ public class AimStateManager : MonoBehaviour
         {
             crosshair.SetCrosshairBumpAmount(crosshair.currentBumpAmount * adsSpace);
         }
-
-
-        Debug.Log($"Crosshair Bump Amount: {crosshair.currentBumpAmount}");
-        Debug.Log($"Current State: {currentState.GetType().Name}");
-        Debug.Log($"Movement State: {moving.currentState}");
     }
 
     // display ray cast

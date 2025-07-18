@@ -266,6 +266,7 @@ MonoBehaviour:
   holeSizeMultiplier: 0
   bulletImpactPrefab: {fileID: 5332507677904945200, guid: 44fc1050efa646740a5883860b155bcd, type: 3}
   ennemyHitSound: {fileID: 8300000, guid: 79f2588a756ac07429f3258671b933b1, type: 3}
+  ennemyHeadShotSound: {fileID: 8300000, guid: 5ffd54d30bb3c7b4ab48cf59ae3f9afd, type: 3}
   audioSource: {fileID: 0}
 --- !u!199 &-600506071789977628
 ParticleSystemRenderer:

@@ -11,6 +11,7 @@ public class Bullet : MonoBehaviour
 
     [SerializeField] private GameObject bulletImpactPrefab;
     [SerializeField] private AudioClip ennemyHitSound;
+    [SerializeField] private AudioClip ennemyHeadShotSound;
     [HideInInspector] public AudioSource audioSource;
 
 
@@ -29,7 +30,19 @@ public class Bullet : MonoBehaviour
         if (collision.gameObject.GetComponentInParent<EnemyHealth>())
         {
             EnemyHealth enemy = collision.gameObject.GetComponentInParent<EnemyHealth>();
-            enemy.TakeDamage(weapon.damage);
+
+            // Head Shot
+            if (enemy.headCollider.bounds.Contains(collision.contacts[0].point))
+            {
+                if (!enemy.isDead) playHitSound(true);
+                enemy.TakeDamage(weapon.damage * 2);
+
+            }
+            else
+            {
+                if (!enemy.isDead) playHitSound(false);
+                enemy.TakeDamage(weapon.damage);
+            }
 
             if (enemy.health <= 0f && enemy.isDead == false)
             {
@@ -40,7 +53,6 @@ public class Bullet : MonoBehaviour
             
             SpawnImpactEffect(collision.contacts[0].point, Quaternion.LookRotation(collision.contacts[0].normal), false);
 
-            if (!enemy.isDead) playHitSound();
             return;
         }
         else
@@ -64,13 +76,13 @@ public class Bullet : MonoBehaviour
         impact.transform.position -= impact.transform.forward / 100;
     }
     
-    private void playHitSound()
+    private void playHitSound(bool isHeadShot = false)
     {
         gameObject.GetComponent<Collider>().enabled = false;
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         gameObject.GetComponent<TrailRenderer>().enabled = false;
-        audioSource.PlayOneShot(ennemyHitSound);
-        Destroy(this.gameObject, ennemyHitSound.length);
+        audioSource.PlayOneShot(isHeadShot ? ennemyHeadShotSound : ennemyHitSound);
+        Destroy(this.gameObject, isHeadShot ? ennemyHeadShotSound.length : ennemyHitSound.length);
     }
 
 }
