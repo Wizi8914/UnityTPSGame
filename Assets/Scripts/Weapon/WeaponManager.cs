@@ -27,6 +27,7 @@ public class WeaponManager : MonoBehaviour
     AimStateManager aim;
 
     [SerializeField] AudioClip fireSound;
+    [SerializeField] AudioClip noAmmoSound;
     [HideInInspector] public AudioSource audioSource;
     [HideInInspector] public WeaponAmmo ammo;
     WeaponBloom bloom;
@@ -72,17 +73,23 @@ public class WeaponManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isBurstFire)
+        if (ShouldFire())
         {
-            if (!isBursting && ShouldFire())
+            if (isBurstFire && !isBursting)
             {
                 StartCoroutine(BurstFire());
             }
+            else
+            {
+                Fire();
+            }
         }
-        else
+
+        if (ammo.currentAmmo <= 0 && Input.GetKeyDown(KeyCode.Mouse0))
         {
-            if (ShouldFire()) Fire();
+            audioSource.PlayOneShot(noAmmoSound);
         }
+
         muzzleFlashLight.intensity = Mathf.Lerp(muzzleFlashLight.intensity, 0f, lightReturnSpeed * Time.deltaTime);
     }
 
@@ -91,7 +98,7 @@ public class WeaponManager : MonoBehaviour
         fireRateTimer += Time.deltaTime;
 
         if (fireRateTimer < fireRate) return false;
-        if (ammo.currentAmmo == 0) return false;
+        if (ammo.currentAmmo <= 0) return false;
         if (actions.currentState == actions.Reload) return false;
         if (actions.currentState == actions.Swap) return false;
         if (semiAutomatic && Input.GetKeyDown(KeyCode.Mouse0)) return true;

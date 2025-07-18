@@ -28,12 +28,21 @@ public class AimStateManager : MonoBehaviour
     [HideInInspector] public Vector3 actualAimPosition;
     [SerializeField] float aimTransitionSpeed = 20f;
     [SerializeField] LayerMask aimMask;
+    [SerializeField] Crosshair crosshair;
 
     float xFollowPosition;
     float yFollowPosition, ogYFollowPosition;
     [SerializeField] float shoulderSwapSpeed = 10;
     [SerializeField] float crouchCamHeight = 0.6f;
     MovementStateManager moving;
+
+    [Header("Crosshair Settings")]
+    public float adsSpace = 0.5f;
+    public float walkSpace = 2f;
+    public float runSpace = 3f;
+    public float crouchSpace = 0.2f;
+    public float jumpSpace = 4f;
+
 
     MultiAimConstraint[] multiAims;
     WeightedTransform aimPositionWeightedTransform;
@@ -114,6 +123,7 @@ public class AimStateManager : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, aimMask))
         {
             aimPosition.position = Vector3.Lerp(aimPosition.position, hit.point, aimTransitionSpeed * Time.deltaTime);
+            crosshair.SetCrosshairColor(hit.collider.GetComponentInParent<EnemyHealth>()?.isDead == false ? crosshair.enemyColor : crosshair.normalColor);
         }
         else
         {
@@ -121,6 +131,7 @@ public class AimStateManager : MonoBehaviour
         }
 
         MoveCamera();
+        UpdateCrosshairBump();
 
         currentState.UpdateState(this);
 
@@ -153,13 +164,47 @@ public class AimStateManager : MonoBehaviour
         camFollowPos.localPosition = Vector3.Lerp(camFollowPos.localPosition, newFollowPosition, shoulderSwapSpeed * Time.deltaTime);
     }
 
+    void UpdateCrosshairBump()
+    {
+        if (moving.currentState == moving.Idle)
+        {
+            crosshair.SetCrosshairBumpAmount(crosshair.originalBumpAmount);
+        }
+        else if (moving.currentState == moving.Crouch)
+        {
+            crosshair.SetCrosshairBumpAmount(crosshair.originalBumpAmount * crouchSpace);
+        }
+        else if (moving.currentState == moving.Walk)
+        {
+            crosshair.SetCrosshairBumpAmount(crosshair.originalBumpAmount * walkSpace);
+        }
+        else if (moving.currentState == moving.Run)
+        {
+            crosshair.SetCrosshairBumpAmount(crosshair.originalBumpAmount * runSpace);
+        }
+        else if (moving.currentState == moving.Jump)
+        {
+            crosshair.SetCrosshairBumpAmount(crosshair.originalBumpAmount * jumpSpace);
+        }
+    
+        if (currentState == Aim)
+        {
+            crosshair.SetCrosshairBumpAmount(crosshair.currentBumpAmount * adsSpace);
+        }
+
+
+        Debug.Log($"Crosshair Bump Amount: {crosshair.currentBumpAmount}");
+        Debug.Log($"Current State: {currentState.GetType().Name}");
+        Debug.Log($"Movement State: {moving.currentState}");
+    }
+
     // display ray cast
     private void OnDrawGizmos()
     {
         if (aimPosition != null)
         {
             Gizmos.color = Color.red;
-            
+
             Gizmos.DrawSphere(aimPosition.position, 0.1f);
         }
     }

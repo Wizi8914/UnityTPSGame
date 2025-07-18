@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 public class WeaponRecoil : MonoBehaviour
@@ -6,6 +7,9 @@ public class WeaponRecoil : MonoBehaviour
     [SerializeField] float kickBackForce = -1f;
     [SerializeField] float kickBackSpeed = 10f, returnSpeed = 20f;
     float currentRecoilPosition, finalRecoilPosition;
+
+    [SerializeField] Crosshair crosshair;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -22,6 +26,9 @@ public class WeaponRecoil : MonoBehaviour
         recoilFollowPos.localPosition = new Vector3(0, 0, finalRecoilPosition);
     }
 
-    public void TriggerRecoil() => currentRecoilPosition += kickBackForce;
-    
+    public void TriggerRecoil()
+    {
+        currentRecoilPosition += kickBackForce;
+        crosshair.BumpCrosshair(math.abs(kickBackForce) * 50f); // Adjust the multiplier as needed for crosshair bump effect 
+    }
 }
